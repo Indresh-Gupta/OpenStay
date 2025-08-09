@@ -1,0 +1,64 @@
+ <% layout("/layouts/boilerplate") %>
+
+        <style>
+            body, html {
+                overflow: hidden;
+                height: 100%;
+            }
+        </style>
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="card p-4 shadow-lg rounded" style="width: 400px;">
+                <h2 class="text-center mb-4">Login</h2>
+                <form action="/login" method="POST" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input 
+                            name="username" 
+                            id="username"
+                            type="text" 
+                            class="form-control"
+                            required 
+                        />
+                        <div class="valid-feedback">Looks good!</div>
+                    </div> 
+        
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input 
+                            name="password" 
+                            id="password"
+                            type="password" 
+                            class="form-control"
+                            required 
+                        />
+
+                        <div class="valid-feedback">Looks good!</div>
+                    </div> 
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="showPasswordCheck" />
+                        <label class="form-check-label" for="showPasswordCheck">
+                          Show Password
+                        </label>
+                      </div>
+        
+                    <button class="btn btn-success w-100">Login</button>
+                </form>
+        
+                <div class="text-center mt-3">
+                    <span>New User?</span>
+                    <a href="/signup" class="btn btn-outline-success">Signup</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+ 
+            // Show password checkbox functionality
+            const passwordInput = document.getElementById('password');
+            const showCheckbox = document.getElementById('showPasswordCheck');
+          
+            showCheckbox.addEventListener('change', () => {
+              passwordInput.type = showCheckbox.checked ? 'text' : 'password';
+            });
+          </script>
+        

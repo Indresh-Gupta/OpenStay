@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .btn-container {
+            display: flex;
+            gap: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+        }
+        .login-btn {
+            background-color: #007bff;
+        }
+        .signup-btn {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Hotel Rental</h1>
+    <div class="btn-container">
+        <a href="/login" class="btn login-btn">Login</a>
+        <a href="/signup" class="btn signup-btn">Signup</a>
+    </div>
+</body>
+</html>

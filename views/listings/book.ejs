@@ -1,0 +1,121 @@
+<%- layout("layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <br/> <br/>
+        <h3> Hotels For Booking</h3>
+        <form 
+        method="POST" 
+        action="/listings/<%= listing._id %>" 
+        novalidate 
+        class="needs-validation"
+        enctype="application/x-www-form-urlencoded">
+         <h2><%= listing.title %></h2>
+        
+        <div class="mb-3">
+            <label for="checkIn" class="form-label">Check-in Date:</label>
+            <input 
+            name="checkIn" 
+            id="checkIn"
+            type="date" 
+            class="form-control"
+            required />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">Please enter the check-in date</div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="checkOut" class="form-label">Check-out Date:</label>
+            <input 
+            name="checkOut" 
+            id="checkOut"
+            type="date" 
+            class="form-control"
+            required />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">Please enter the check-out date</div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="Adult" class="form-label">Number of Adults:</label> 
+            <input type="number" name="Adult" id="Adult" class="form-control" required min="1"/> 
+        </div>
+        
+        <div class="mb-3">
+            <label for="child" class="form-label">Number of Children:</label> 
+            <input type="number" name="child" id="child" class="form-control" required min="0"/> 
+        </div>
+        
+        <div class="mb-3">
+            <label for="guest" class="form-label">Total Number of Guests:</label> 
+            <input type="number" name="guest" id="guest" class="form-control" required min="1" readonly /> 
+        </div>
+        
+        <div class="mb-3">
+            <label for="roomType" class="form-label">Room Type:</label>
+            <select 
+            name="roomType" 
+            id="roomType"
+            class="form-control"
+            required > 
+                <option value="">Select Room Type</option>
+                <option value="Single">Single</option>
+                <option value="Double">Double</option>
+                <option value="Suite">Suite</option>
+            </select>
+            <div class="invalid-feedback">Please select room type</div>
+        </div>
+       
+        <input type="hidden" name="listing" value="<%= listing ? listing._id : '' %>">
+        <input type="hidden" name="author" value="<%= currUser ? currUser._id : '' %>">
+       
+        <button class="btn btn-dark add-btn mt-3">Book</button>
+        </br> </br>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Function to calculate the total number of guests
+    function calculateTotalGuests() {
+        var adultCount = parseInt(document.getElementById('Adult').value) || 0;
+        var childCount = parseInt(document.getElementById('child').value) || 0;
+        var totalGuests = adultCount + childCount;
+        
+        // Update the "guest" field
+        document.getElementById('guest').value = totalGuests;
+
+        // Update room types based on total number of guests
+        updateRoomTypeOptions(totalGuests);
+    }
+
+    // Function to update the available room types based on the total number of guests
+    function updateRoomTypeOptions(totalGuests) {
+        var roomTypeSelect = document.getElementById('roomType');
+        
+        // If total guests are more than 3, only show Double and Suite options
+        if (totalGuests > 3) {
+            var options = roomTypeSelect.getElementsByTagName('option');
+            
+            // Remove Single room type option
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value === 'Single') {
+                    options[i].style.display = 'none'; // Hide Single option
+                }
+            }
+        } else {
+            // If total guests are 3 or less, show all room types
+            var options = roomTypeSelect.getElementsByTagName('option');
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.display = 'block'; // Show all room type options
+            }
+        }
+    }
+
+    // Add event listeners to update the total guests whenever the values change
+    document.getElementById('Adult').addEventListener('input', calculateTotalGuests);
+    document.getElementById('child').addEventListener('input', calculateTotalGuests);
+
+    // Run the calculation on page load in case the fields have default values
+    calculateTotalGuests();
+</script>
