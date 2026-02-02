@@ -43,10 +43,7 @@ module.exports.index=async (req, res) => {
     const listing = await Listing.findById(id)
     .populate({
       path:"reviews" ,
-      populate :{
-         path:"author",
-      
-        },
+      populate :{ path:"author", },
       })
         .populate("owner");
     if(!listing) {

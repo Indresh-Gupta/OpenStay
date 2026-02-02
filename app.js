@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate=require('ejs-mate');
+const dotenv=require("dotenv");
 const ExpressError= require("./utils/ExpressError.js");
 const session=require("express-session");
 const passport=require("passport");
@@ -25,19 +26,33 @@ const bodyParser = require("body-parser");
 const multer=require("multer");
 const upload=multer({dest:"uploads/"});
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/HotelRental";
+
+const dbUrl = process.env.MONGO_URI;
 
 main()
-  .then(() => {
+ .then(() => {
     console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+ })
+ .catch((err) =>{
+  console.log(err);
+ });
 
-async function main() {
-  await mongoose.connect(MONGO_URL);
-}
+ async function main() {
+  await mongoose.connect(dbUrl);
+ }
+
+
+
+// dotenv.config();
+
+// const connectDB = async() => {
+//     try {
+//         await mongoose.connect(process.env.MONGODB_URI);
+//         console.log("Connected with Database!");
+//     } catch(err) {
+//         console.log("Failed to connect with Db", err);
+//     }
+// }
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
