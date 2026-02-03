@@ -10,13 +10,13 @@
     <link href="/css/rating.css" rel="stylesheet" />
 </head>
 <body>
-    <% if (page !== "/login" && page !=="/signup") { %>
+    <% if (page !== "/" && page !=="/signup") { %>
         <%- include("../includes/navbar.ejs") %>
     <% } %>
     <div class="container">
         <%- include("../includes/flash.ejs") %>
         <%- body %>
-        <% if (page !== "/login" && page !== "/signup") { %>
+        <% if (page !== "/" && page !== "/signup") { %>
             <%- include("../includes/footer.ejs") %>
         <% } %>
     </div>

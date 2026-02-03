@@ -26,7 +26,7 @@ module.exports.signup=async(req, res)=>{
 };
 
 module.exports.renderLoginForm=(req, res)=>{
-    res.render("users/login.ejs", {page:"/login"});
+    res.render("users/login.ejs", {page:"/"});
 };
 
 module.exports.login= async (req, res) => {
@@ -41,6 +41,6 @@ module.exports.logout=(req, res, next) =>{
             return next(err);
         }
         req.flash("success", "you are logged out!");
-        res.redirect("/login");
+        res.redirect("/");
     });
 };
