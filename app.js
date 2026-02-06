@@ -29,17 +29,17 @@ const upload=multer({dest:"uploads/"});
 
 const dbUrl = process.env.MONGO_URI;
 
-main()
- .then(() => {
-    console.log("connected to DB");
- })
- .catch((err) =>{
-  console.log(err);
- });
+// main()
+//  .then(() => {
+//     console.log("connected to DB");
+//  })
+//  .catch((err) =>{
+//   console.log(err);
+//  });
 
- async function main() {
-  await mongoose.connect(dbUrl);
- }
+//  async function main() {
+//   await mongoose.connect(dbUrl);
+//  }
 
 
 
@@ -126,6 +126,20 @@ app.use((err,req, res, next )=> {
   res.status(statusCode).render(("error.ejs"), {message});
 });
 
-app.listen(8080, () => {
-  console.log("server is listening to port 8080");
-});
+const PORT = process.env.PORT || 8080;
+
+async function startServer() {
+  try {
+    await mongoose.connect(dbUrl);
+    console.log("✅ Connected to MongoDB Atlas");
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is listening on port ${PORT}`);
+    });
+
+  } catch (err) {
+    console.log("❌ MongoDB connection failed:", err);
+  }
+}
+
+startServer();
