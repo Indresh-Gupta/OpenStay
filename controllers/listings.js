@@ -50,7 +50,7 @@ module.exports.index=async (req, res) => {
       req.flash("error", "Listing you requested for does not exist!");
       res.redirect("/listings");
     }
-    const bookings = await Booking.find({ listing: id }).populate("user");
+    const bookings = await Booking.find({ listing: id }).populate("user").populate("payment");
     res.render("listings/show.ejs", { listing ,bookings});
   };
 
@@ -228,14 +228,14 @@ module.exports.createBooking = async (req, res) => {
             return res.status(500).json({ error: "Listing details not available" });
         }
 
-        const receiptPath = path.join(
-            __dirname,
-            `../public/receipts/receipt_${newBooking._id}.pdf`
-        );
+        // const receiptPath = path.join(
+        //     __dirname,
+        //     `../public/receipts/receipt_${newBooking._id}.pdf`
+        // );
 
-        await generateReceipt(newBooking, booking.listing, receiptPath, req.user);
+        // await generateReceipt(newBooking, booking.listing, receiptPath, req.user);
 
-        console.log("Checking for receipt file:", receiptPath);
+        // console.log("Checking for receipt file:", receiptPath);
         req.flash("success", "Booking successful! Download your receipt.");
         res.redirect(`/listings/${id}`);
     } catch (error) {
@@ -245,79 +245,79 @@ module.exports.createBooking = async (req, res) => {
 };
 
 // **Generate PDF Receipt**
-const generateReceipt = (booking, listing, filePath, user) => {
-    return new Promise((resolve, reject) => {
-        console.log("Generating receipt for:", booking._id);
-        console.log("Listing data in generateReceipt:", listing); 
+// const generateReceipt = (booking, listing, filePath, user) => {
+//     return new Promise((resolve, reject) => {
+//         console.log("Generating receipt for:", booking._id);
+//         console.log("Listing data in generateReceipt:", listing); 
 
-        if (!listing) {
-            console.error("Listing is undefined in generateReceipt!");
-            return reject("Listing is undefined");
-        }
+//         if (!listing) {
+//             console.error("Listing is undefined in generateReceipt!");
+//             return reject("Listing is undefined");
+//         }
 
-        const doc = new PDFDocument();
-        const stream = fs.createWriteStream(filePath);
+//         const doc = new PDFDocument();
+//         const stream = fs.createWriteStream(filePath);
 
-        doc.pipe(stream);
+//         doc.pipe(stream);
 
-        doc.fontSize(20).text("Hotel Booking Receipt", { align: "center" });
-        doc.moveDown();
+//         doc.fontSize(20).text("Hotel Booking Receipt", { align: "center" });
+//         doc.moveDown();
 
-        const formattedCheckIn = new Date(booking.checkIn).toLocaleDateString();
-        const formattedCheckOut = new Date(booking.checkOut).toLocaleDateString();
+//         const formattedCheckIn = new Date(booking.checkIn).toLocaleDateString();
+//         const formattedCheckOut = new Date(booking.checkOut).toLocaleDateString();
 
-        doc.fontSize(14).text(`Guest Name: ${user.username}`);
-        doc.text(`Hotel Name: ${listing.title || "N/A"}`);
-        doc.text(`Address: ${listing.location || "N/A"}`);
-        doc.text(`Price: ${listing.price || "N/A"}`);
-        doc.text(`Check-in: ${formattedCheckIn}`);
-        doc.text(`Check-out: ${formattedCheckOut}`);
-        doc.text(`Adult: ${booking.Adult || "N/A"}`);
-        doc.text(`Child: ${booking.Child || "N/A"}`);
-        doc.text(`Total Guests: ${booking.Guest || "N/A"}`);
-        doc.text(`Room Type: ${booking.roomType}`);
-        doc.text(`Booking ID: ${booking._id}`);
+//         doc.fontSize(14).text(`Guest Name: ${user.username}`);
+//         doc.text(`Hotel Name: ${listing.title || "N/A"}`);
+//         doc.text(`Address: ${listing.location || "N/A"}`);
+//         doc.text(`Price: ${listing.price || "N/A"}`);
+//         doc.text(`Check-in: ${formattedCheckIn}`);
+//         doc.text(`Check-out: ${formattedCheckOut}`);
+//         doc.text(`Adult: ${booking.Adult || "N/A"}`);
+//         doc.text(`Child: ${booking.Child || "N/A"}`);
+//         doc.text(`Total Guests: ${booking.Guest || "N/A"}`);
+//         doc.text(`Room Type: ${booking.roomType}`);
+//         doc.text(`Booking ID: ${booking._id}`);
 
-        doc.moveDown();
-        doc.text("Thank you for booking with us!", { align: "center" });
+//         doc.moveDown();
+//         doc.text("Thank you for booking with us!", { align: "center" });
 
-        doc.end();
+//         doc.end();
 
-        stream.on("finish", () => {
-            console.log("Receipt generated successfully:", filePath);
-            resolve();
-        });
+//         stream.on("finish", () => {
+//             console.log("Receipt generated successfully:", filePath);
+//             resolve();
+//         });
 
-        stream.on("error", (err) => {
-            console.error("Error generating receipt:", err);
-            reject(err);
-        });
-    });
-};
+//         stream.on("error", (err) => {
+//             console.error("Error generating receipt:", err);
+//             reject(err);
+//         });
+//     });
+// };
 
 
 // Serve the receipt file for download
-module.exports.getReceipt = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const receiptPath = path.join(__dirname, `../public/receipts/receipt_${id}.pdf`);
+// module.exports.getReceipt = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const receiptPath = path.join(__dirname, `../public/receipts/receipt_${id}.pdf`);
     
-    console.log("Checking for receipt file:", receiptPath);
+//     console.log("Checking for receipt file:", receiptPath);
     
-    if (fs.existsSync(receiptPath)) {
-      console.log("Receipt found, sending for download...");
-      return res.download(receiptPath, `Hotel_Receipt_${id}.pdf`); 
-    }
+//     if (fs.existsSync(receiptPath)) {
+//       console.log("Receipt found, sending for download...");
+//       return res.download(receiptPath, `Hotel_Receipt_${id}.pdf`); 
+//     }
 
-    console.log("Receipt not found!");
-    req.flash("error", "Receipt not found!");
-    return res.redirect("/listings"); 
+//     console.log("Receipt not found!");
+//     req.flash("error", "Receipt not found!");
+//     return res.redirect("/listings"); 
 
-  } catch (error) {
-    console.error("Error fetching receipt:", error);
-    res.status(500).send("Internal Server Error");
-  }
-};
+//   } catch (error) {
+//     console.error("Error fetching receipt:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
 
 
 

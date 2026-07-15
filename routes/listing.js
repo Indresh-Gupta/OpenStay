@@ -36,7 +36,7 @@ router.route("/:id")
 router.post("/:id",isLoggedIn, wrapAsync(listingController.createBooking));
 router.get("/:id/book",isLoggedIn, wrapAsync(listingController.bookListing));
 // Route to download receipt
-router.get("/bookings/receipts/:id",isLoggedIn,isBookingOwner, wrapAsync(listingController.getReceipt));
+// router.get("/bookings/receipts/:id",isLoggedIn,isBookingOwner, wrapAsync(listingController.getReceipt));
 router.delete("/bookings/cancel/:id", isLoggedIn, isBookingOwner, wrapAsync(listingController.cancelBooking));
 
   module.exports=router;

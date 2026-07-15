@@ -1,0 +1,66 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="payment-result-container success-container">
+    <div class="payment-result-card">
+        <div class="result-icon success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h2 class="result-title">Payment Successful!</h2>
+        <p class="result-subtitle">Your booking has been confirmed.</p>
+
+        <div class="invoice-details">
+            <div class="detail-row">
+                <span class="detail-label">Invoice Number</span>
+                <span class="detail-value"><%= paymentRecord.receipt %></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Payment ID</span>
+                <span class="detail-value"><%= paymentRecord.paymentId %></span>
+            </div>
+
+            <% if (paymentRecord.listing) { %>
+            <div class="detail-row">
+                <span class="detail-label">Hotel</span>
+                <span class="detail-value"><%= paymentRecord.listing.title %></span>
+            </div>
+            <% } %>
+
+            <% if (paymentRecord.booking) { %>
+            <div class="detail-row">
+                <span class="detail-label">Check In</span>
+                <span class="detail-value"><%= paymentRecord.booking.checkIn %></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Check Out</span>
+                <span class="detail-value"><%= paymentRecord.booking.checkOut %></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Room Type</span>
+                <span class="detail-value"><%= paymentRecord.booking.roomType %></span>
+            </div>
+            <% } %>
+
+            <div class="detail-row">
+                <span class="detail-label">Amount Paid</span>
+                <span class="detail-value">Rs. <%= (paymentRecord.amount / 100).toFixed(2) %></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Status</span>
+                <span class="detail-value status-paid"><%= paymentRecord.status.toUpperCase() %></span>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <a href="/payment/invoice/<%= paymentRecord._id %>" class="btn btn-invoice">
+                <i class="fa-solid fa-download"></i> Download Invoice
+            </a>
+            <a href="/listings/<%= paymentRecord.listing._id %>" class="btn btn-secondary">Back to Listings</a>
+            <!-- <a href="/payment/history" class="btn btn-secondary">View Payment History</a> -->
+        </div>
+    </div>
+</div>

@@ -84,9 +84,19 @@
                   Cancel Booking
               </button>
               </form>
-              <a href="/listings/bookings/receipts/<%= userBooking._id %>" class="btn btn-primary offset-0 col-auto">
-                  Download Receipt
-              </a>
+               
+              <% bookings.forEach((booking) => { %>
+
+    <% if (booking.payment) { %>
+
+        <a href="/payment/invoice/<%= booking.payment._id %>"
+           class="btn btn-success">
+            Generate Invoice
+        </a>
+
+    <% } %>
+
+<% }) %>
           </div>
       <% } else { %>
           <!-- Show Book Button if the user hasn't booked -->

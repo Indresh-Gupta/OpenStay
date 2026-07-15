@@ -1,0 +1,53 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="payment-history-container">
+    <h2 class="history-title">Payment History</h2>
+
+    <% if (payments.length === 0) { %>
+        <div class="no-payments">
+            <p>You have no completed payments yet.</p>
+            <a href="/listings" class="btn btn-primary">Browse Hotels</a>
+        </div>
+    <% } else { %>
+        <div class="history-table-wrapper">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Invoice No.</th>
+                        <th>Hotel</th>
+                        <th>Room Type</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payments.forEach(payment => { %>
+                        <tr>
+                            <td><%= payment.receipt %></td>
+                            <td><%= payment.listing ? payment.listing.title : "N/A" %></td>
+                            <td><%= payment.booking ? payment.booking.roomType : "N/A" %></td>
+                            <td><%= payment.booking ? payment.booking.checkIn : "N/A" %></td>
+                            <td><%= payment.booking ? payment.booking.checkOut : "N/A" %></td>
+                            <td>Rs. <%= (payment.amount / 100).toFixed(2) %></td>
+                            <td>
+                                <span class="status-badge status-<%= payment.status %>">
+                                    <%= payment.status.toUpperCase() %>
+                                </span>
+                            </td>
+                            <td><%= new Date(payment.createdAt).toLocaleDateString("en-IN") %></td>
+                            <td>
+                                <a href="/payment/invoice/<%= payment._id %>" class="btn btn-sm btn-invoice">
+                                    <i class="fa-solid fa-download"></i> Download
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+</div>

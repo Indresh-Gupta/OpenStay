@@ -1,0 +1,295 @@
+/* ================= Payment Result Pages (Success / Failure) ================= */
+
+.payment-result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 40px 20px;
+}
+
+.payment-result-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+}
+
+.result-icon {
+    font-size: 60px;
+    margin-bottom: 16px;
+}
+
+.success-icon {
+    color: #1a7f37;
+}
+
+.failure-icon {
+    color: #c0392b;
+}
+
+.result-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #222222;
+}
+
+.result-subtitle {
+    color: #666666;
+    margin-bottom: 24px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.invoice-details {
+    text-align: left;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    padding: 20px 0;
+    margin-bottom: 24px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.detail-label {
+    color: #888888;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #222222;
+    font-weight: 600;
+    text-align: right;
+}
+
+.status-paid {
+    color: #1a7f37;
+}
+
+.failure-reasons {
+    text-align: left;
+    background: #fff5f5;
+    border: 1px solid #ffd6d6;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #444444;
+}
+
+.failure-reasons ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
+}
+
+.failure-reasons li {
+    margin-bottom: 6px;
+}
+
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result-actions .btn {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.btn-invoice {
+    background-color: #fe424d;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-invoice:hover {
+    background-color: #e63946;
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background-color: #f1f1f1;
+    color: #333333;
+    border: 1px solid #dddddd;
+}
+
+.btn-secondary:hover {
+    background-color: #e2e2e2;
+    color: #333333;
+}
+
+.btn-primary {
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* ================= Payment History Page ================= */
+
+.payment-history-container {
+    padding: 40px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.history-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #222222;
+}
+
+.no-payments {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666666;
+}
+
+.history-table-wrapper {
+    overflow-x: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.history-table thead {
+    background-color: #222222;
+}
+
+.history-table thead th {
+    color: #ffffff;
+    padding: 14px 12px;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.history-table tbody tr {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.history-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.history-table td {
+    padding: 12px;
+    font-size: 14px;
+    color: #333333;
+    vertical-align: middle;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.status-paid {
+    background-color: #e6f7ec;
+    color: #1a7f37;
+}
+
+.status-badge.status-failed {
+    background-color: #fdecea;
+    color: #c0392b;
+}
+
+.status-badge.status-created {
+    background-color: #fff8e1;
+    color: #b8860b;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* ================= Checkout Page ================= */
+
+.checkout-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.checkout-summary {
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    padding: 16px 0;
+    margin: 16px 0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #333333;
+}
+
+.summary-label {
+    color: #888888;
+}
+
+.summary-value {
+    font-weight: 600;
+}
+
+.total-row {
+    border-top: 1px dashed #dddddd;
+    margin-top: 8px;
+    padding-top: 12px;
+    font-size: 16px;
+}
+
+.total-row .summary-value {
+    color: #fe424d;
+}
+
+@media (max-width: 576px) {
+    .payment-result-card,
+    .checkout-card {
+        padding: 24px;
+    }
+
+    .detail-row,
+    .summary-row {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .detail-value,
+    .summary-value {
+        text-align: left;
+    }
+}

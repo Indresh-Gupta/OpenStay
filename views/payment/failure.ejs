@@ -1,0 +1,29 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="payment-result-container failure-container">
+    <div class="payment-result-card">
+        <div class="result-icon failure-icon">
+            <i class="fa-solid fa-circle-xmark"></i>
+        </div>
+
+        <h2 class="result-title">Payment Failed</h2>
+        <p class="result-subtitle">
+            Unfortunately, your payment could not be processed. No booking has been created and no amount has been charged.
+        </p>
+
+        <div class="failure-reasons">
+            <p>This could be due to:</p>
+            <ul>
+                <li>Payment was cancelled before completion</li>
+                <li>Bank or card declined the transaction</li>
+                <li>Network issue during payment processing</li>
+                <li>Signature verification failed</li>
+            </ul>
+        </div>
+
+        <div class="result-actions">
+            <a href="/listings" class="btn btn-primary">Try Again</a>
+            <a href="/payment/history" class="btn btn-secondary">View Payment History</a>
+        </div>
+    </div>
+</div>

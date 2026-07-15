@@ -31,6 +31,17 @@ const bookingSchema = new mongoose.Schema({
         required: true
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+
+     payment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Payment",
+        default: null,
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["pending", "paid", "failed"],
+        default: "pending",
+    },
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);

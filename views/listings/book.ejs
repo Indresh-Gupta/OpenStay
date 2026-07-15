@@ -6,7 +6,7 @@
         <h3> Hotels For Booking</h3>
         <form 
         method="POST" 
-        action="/listings/<%= listing._id %>" 
+        action="/payment/create-order/<%= listing._id %>" 
         novalidate 
         class="needs-validation"
         enctype="application/x-www-form-urlencoded">
@@ -65,11 +65,15 @@
             </select>
             <div class="invalid-feedback">Please select room type</div>
         </div>
+
+        <div class="mb-3">
+            <p><strong>Price per night: </strong> Rs. <%= listing.price %></p>
+        </div>
        
         <input type="hidden" name="listing" value="<%= listing ? listing._id : '' %>">
         <input type="hidden" name="author" value="<%= currUser ? currUser._id : '' %>">
        
-        <button class="btn btn-dark add-btn mt-3">Book</button>
+        <button class="btn btn-dark add-btn mt-3">Continue to Payment</button>
         </br> </br>
         </form>
     </div>

@@ -1,0 +1,139 @@
+<%- layout("layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <div class="checkout-card">
+            <h3>Confirm &amp; Pay</h3>
+
+            <div class="checkout-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Hotel</span>
+                    <span class="summary-value"><%= listing.title %></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Check-in</span>
+                    <span class="summary-value"><%= checkIn %></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Check-out</span>
+                    <span class="summary-value"><%= checkOut %></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Adults</span>
+                    <span class="summary-value"><%= Adult %></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Children</span>
+                    <span class="summary-value"><%= child %></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Guests</span>
+                    <span class="summary-value"><%= guest %></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Room Type</span>
+                    <span class="summary-value"><%= roomType %></span>
+                </div>
+                <div class="summary-row total-row">
+                    <span class="summary-label">Amount Payable</span>
+                    <span class="summary-value">Rs. <%= (order.amount / 100).toFixed(2) %></span>
+                </div>
+            </div>
+
+            <button id="rzp-pay-btn" class="btn btn-dark add-btn mt-3">Pay Now</button>
+
+            <div id="payment-error" class="alert alert-danger mt-3" style="display:none;"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById("rzp-pay-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+
+        var options = {
+            key: "<%= key_id %>",
+            amount: "<%= order.amount %>",
+            currency: "<%= order.currency %>",
+            name: "OpenStay",
+            description: "Booking payment for <%= listing.title %>",
+            order_id: "<%= order.id %>",
+            handler: function (response) {
+                var form = document.createElement("form");
+                form.method = "POST";
+                form.action = "/payment/verify";
+
+                var fields = {
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature: response.razorpay_signature,
+                    paymentDbId: "<%= paymentDbId %>",
+                    listing: "<%= listing._id %>",
+                    checkIn: "<%= checkIn %>",
+                    checkOut: "<%= checkOut %>",
+                    Adult: "<%= Adult %>",
+                    child: "<%= child %>",
+                    guest: "<%= guest %>",
+                    roomType: "<%= roomType %>",
+                    author: "<%= author %>",
+                };
+
+                for (var key in fields) {
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = key;
+                    input.value = fields[key];
+                    form.appendChild(input);
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/payment/verify", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onload = function () {
+                    try {
+                        var res = JSON.parse(xhr.responseText);
+                        if (res.success) {
+                            window.location.href = res.redirectUrl;
+                        } else {
+                            window.location.href = res.redirectUrl || "/payment/failure";
+                        }
+                    } catch (err) {
+                        window.location.href = "/payment/failure";
+                    }
+                };
+                xhr.onerror = function () {
+                    window.location.href = "/payment/failure";
+                };
+
+                var body = Object.keys(fields)
+                    .map(function (k) {
+                        return encodeURIComponent(k) + "=" + encodeURIComponent(fields[k]);
+                    })
+                    .join("&");
+
+                xhr.send(body);
+            },
+            modal: {
+                ondismiss: function () {
+                    document.getElementById("payment-error").style.display = "block";
+                    document.getElementById("payment-error").innerText =
+                        "Payment was cancelled. No amount has been charged.";
+                },
+            },
+            theme: {
+                color: "#fe424d",
+            },
+        };
+
+        var rzp = new Razorpay(options);
+
+        rzp.on("payment.failed", function (response) {
+            document.getElementById("payment-error").style.display = "block";
+            document.getElementById("payment-error").innerText =
+                "Payment failed: " + response.error.description;
+        });
+
+        rzp.open();
+    });
+</script>

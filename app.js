@@ -25,9 +25,14 @@ const userRouter=require("./routes/user.js");
 const bodyParser = require("body-parser");
 const multer=require("multer");
 const upload=multer({dest:"uploads/"});
+const paymentRouter = require("./routes/payment.js");
+const dns =require( 'node:dns/promises');
+// Change DNS
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 
 const dbUrl = process.env.MONGO_URI;
+console.log("DB URL:", process.env.MONGO_URI);
 
 // main()
 //  .then(() => {
@@ -113,6 +118,7 @@ app.use((req, res, next) =>{
 
 
 app.use("/listings", listingRouter);
+app.use("/payment", paymentRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
